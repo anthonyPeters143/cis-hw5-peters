@@ -1,9 +1,13 @@
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -20,6 +24,8 @@ public class ProductCatalog {
      */
     private Map<String, ProductSpecification> productCatalogHashMap;
 
+    private RandomAccessFile randomAccessProductFile;
+
     /**
      * Aug. Constructor
      * Initialize productCatalogHashMap and add productSpecifications from file
@@ -31,30 +37,69 @@ public class ProductCatalog {
         // Initialize Product HashMap
         productCatalogHashMap = new HashMap<>();
 
-        // Input data from file
         try {
-            // Set up scanner from file
-            Scanner productCatalogScanner = new Scanner(new File("src/" + fileName));
+            // Create randomAccessFile
+            randomAccessProductFile = new RandomAccessFile("src/" + fileName, "rw");
 
-            // Scan in input and split by new line commas
-            String productCatalogLine = productCatalogScanner.nextLine();
-            String[] productCatalogSplitImportArray = productCatalogLine.split(Pattern.quote(","));
+            // Input data from file
+            updateDataFromFile();
 
-            // For loop to index and input file data into itemArray
-            // Input code, name, price into Items objects in the array, advance index by 1, split index by 4
-            for (int index = 0, splitIndex = 0; index < 10; index+=1, splitIndex+=3) {
-                // Create ProductSpecification object and place it in productCatalogHashMap
-                productCatalogHashMap.put(productCatalogSplitImportArray[splitIndex],
-                        new ProductSpecification(productCatalogSplitImportArray[splitIndex],
-                                String.valueOf(productCatalogSplitImportArray[splitIndex+1]),
-                                BigDecimal.valueOf(Double.parseDouble(productCatalogSplitImportArray[splitIndex+2]))));
-            }
-            // Close scanner
-            productCatalogScanner.close();
-
-        } catch (Exception exception) {
+        } catch (IOException ioException) {
             // File input failed
-            exception.printStackTrace();
+            ioException.printStackTrace();
+        }
+
+
+
+
+    }
+
+    // Updates data to productCatalogHashMap from random access file
+    public void updateDataFromFile() {
+        try {
+            // Set RandomAccessFile to beginning
+            randomAccessProductFile.seek(0);
+
+            String randomAccessFileString = randomAccessProductFile.readLine();
+            String[] randomAccessFileStringSplit = randomAccessFileString.split(Pattern.quote(","));
+
+            // While loop using index and input file data into itemArray
+            int index = 0;
+
+            while (index < randomAccessFileStringSplit.length) {
+                productCatalogHashMap.put(randomAccessFileStringSplit[index],
+                        new ProductSpecification(randomAccessFileStringSplit[index],
+                                randomAccessFileStringSplit[index + 1],
+                                BigDecimal.valueOf(Double.parseDouble(randomAccessFileStringSplit[index+2])))
+                );
+
+                // Increasing index counter
+                index+=3;
+            }
+
+        } catch (IOException ioException) {
+            // File input failed
+            ioException.printStackTrace();
+        }
+    }
+
+    public void updateFileFromData() {
+        try {
+            // Set RandomAccessFile to beginning
+            randomAccessProductFile.seek(0);
+
+            Set<Map.Entry<String, ProductSpecification>> randomAccessProductArray = productCatalogHashMap.entrySet();
+
+            int index = 0;
+            String productString = "";
+            // Set up and pass data to file
+            while (index < randomAccessProductArray.size()) {
+                productString = randomAccessProductArray[index] + "," + randomAccessProductArray[index + 1] + "," + randomAccessProductArray[index+2];
+            }
+
+        } catch (IOException ioException) {
+            // File input failed
+            ioException.printStackTrace();
         }
     }
 

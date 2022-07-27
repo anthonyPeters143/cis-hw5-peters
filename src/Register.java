@@ -416,6 +416,9 @@ public class Register {
                 modifyProductCatalogItem(systemInScanner);
             }
             case "Q" -> {
+                // Update item.txt from productCatalog
+
+
                 // List products
                 System.out.println(listItems());
 
