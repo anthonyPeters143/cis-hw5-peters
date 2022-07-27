@@ -17,13 +17,18 @@
  * Driver class used to create a Register object then run it, after it finishes running it will exit the program
  */
 
-public static void main(String[] args) {
-        // Create register object instance
-        Register register = new Register();
+public class HW5_peters {
 
-        // Run register object
-        register.run();
+    public static void main(String[] args) {
+            // Create register object instance
+            Register register = new Register();
 
-        // Finish
-        System.exit(0);
+            // Run register object
+            register.run();
+
+            // Finish
+            System.exit(0);
+    }
+
 }
+
