@@ -1,13 +1,7 @@
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -24,7 +18,9 @@ public class ProductCatalog {
      */
     private Map<String, ProductSpecification> productCatalogHashMap;
 
-    private RandomAccessFile randomAccessProductFile;
+    private RandomAccessProductFile randomAccessProductFile;
+
+    private DecimalFormat currencyFormat;
 
     /**
      * Aug. Constructor
@@ -32,25 +28,27 @@ public class ProductCatalog {
      *
      * @param fileName String, file name
      */
-    ProductCatalog(String fileName) {
+    ProductCatalog(String fileName, DecimalFormat decimalFormat) {
 
         // Initialize Product HashMap
         productCatalogHashMap = new HashMap<>();
 
+        // Set currency format
+        currencyFormat = decimalFormat;
+
         try {
             // Create randomAccessFile
-            randomAccessProductFile = new RandomAccessFile("src/" + fileName, "rw");
+            randomAccessProductFile = new RandomAccessProductFile("src/" + fileName, "rw");
 
             // Input data from file
             updateDataFromFile();
+
+            updateFileFromData();
 
         } catch (IOException ioException) {
             // File input failed
             ioException.printStackTrace();
         }
-
-
-
 
     }
 
@@ -65,6 +63,7 @@ public class ProductCatalog {
 
             // While loop using index and input file data into itemArray
             int index = 0;
+
 
             while (index < randomAccessFileStringSplit.length) {
                 productCatalogHashMap.put(randomAccessFileStringSplit[index],
@@ -88,13 +87,49 @@ public class ProductCatalog {
             // Set RandomAccessFile to beginning
             randomAccessProductFile.seek(0);
 
-            Set<Map.Entry<String, ProductSpecification>> randomAccessProductArray = productCatalogHashMap.entrySet();
+            // Create set of Specifications
+            ArrayList<ProductSpecification> listOfSpecification = new ArrayList<>(productCatalogHashMap.values());
 
-            int index = 0;
-            String productString = "";
-            // Set up and pass data to file
-            while (index < randomAccessProductArray.size()) {
-                productString = randomAccessProductArray[index] + "," + randomAccessProductArray[index + 1] + "," + randomAccessProductArray[index+2];
+//            // NEED TO SET UP
+//            listOfSpecification.sort();
+
+            int index = 0, length = 0;
+            String productString = "", prevString = "";
+
+            while (index < listOfSpecification.size()) {
+                productString = listOfSpecification.get(index).getProductCode() + "," +
+                        listOfSpecification.get(index).getProductName() + "," +
+                        currencyFormat.format(listOfSpecification.get(index).getProductPrice()) + ",";
+
+                randomAccessProductFile.writeProductToRandomAccessProductFile(length,productString);
+
+                prevString = productString;
+
+                length += productString.length();
+
+                // Increase index counter
+                index += 1;
+            }
+
+            // Remove any extra bytes from end of randomAccessProductFile
+            // Check if file length is longer than new file input
+            if (length > randomAccessProductFile.length()) {
+                StringBuilder newInput = new StringBuilder();
+
+                // Set RandomAccessFile to beginning
+                randomAccessProductFile.seek(0);
+
+                // Copy up to new length then reset length of file
+                while (randomAccessProductFile.getFilePointer() < length) {
+                    // Append string to buffer
+                    newInput.append(randomAccessProductFile.readLine());
+                }
+
+                // Reset file
+                randomAccessProductFile.setLength(0);
+
+                // Set RandomAccessFile pointer to beginning and write string input into file
+                randomAccessProductFile.writeProductToRandomAccessProductFile(0,newInput.toString());
             }
 
         } catch (IOException ioException) {

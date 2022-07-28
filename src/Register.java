@@ -109,7 +109,7 @@ public class Register {
                 fileNameFlag = true;
 
                 // Initialize ProductCatalog
-                productCatalog = new ProductCatalog(fileName);
+                productCatalog = new ProductCatalog(fileName,currencyFormat);
 
             } else {
                 // File name is incorrect
