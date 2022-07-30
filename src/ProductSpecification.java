@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
  * Holds code, name, price, and taxable state for products
  */
 
-public class ProductSpecification {
+public class ProductSpecification implements Comparable<ProductSpecification> {
 
     /**
      * Global variables
@@ -103,6 +103,16 @@ public class ProductSpecification {
      */
     public void setProductPrice(BigDecimal productPrice) {
         this.productPrice = productPrice;
+    }
+
+    @Override
+    public String toString() {
+        return productName + "," + productCode;
+    }
+
+    @Override
+    public int compareTo(ProductSpecification o) {
+        return (this.getProductName().compareTo(o.getProductName()));
     }
 
 }

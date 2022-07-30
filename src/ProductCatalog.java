@@ -1,5 +1,8 @@
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -17,6 +20,8 @@ public class ProductCatalog {
      * HashMap for storing ProductSpecifications
      */
     private Map<String, ProductSpecification> productCatalogHashMap;
+
+    private ArrayList<ProductSpecification> listOfSpecification;
 
     private RandomAccessProductFile randomAccessProductFile;
 
@@ -36,24 +41,33 @@ public class ProductCatalog {
         // Set currency format
         currencyFormat = decimalFormat;
 
+        // RAF VERSION
         try {
+            // Create product file
+            File productFile = new File(".\\src\\resources\\" + fileName);
+
             // Create randomAccessFile
-            randomAccessProductFile = new RandomAccessProductFile("src/" + fileName, "rw");
+            randomAccessProductFile = new RandomAccessProductFile(productFile, "rw");
 
             // Input data from file
             updateDataFromFile();
-
-            updateFileFromData();
 
         } catch (IOException ioException) {
             // File input failed
             ioException.printStackTrace();
         }
 
+
+
+        // Initialize Arraylist of HashMap values
+        listOfSpecification = new ArrayList<>(productCatalogHashMap.values());
+
+
     }
 
     // Updates data to productCatalogHashMap from random access file
     public void updateDataFromFile() {
+        // RAF VERSION
         try {
             // Set RandomAccessFile to beginning
             randomAccessProductFile.seek(0);
@@ -63,7 +77,6 @@ public class ProductCatalog {
 
             // While loop using index and input file data into itemArray
             int index = 0;
-
 
             while (index < randomAccessFileStringSplit.length) {
                 productCatalogHashMap.put(randomAccessFileStringSplit[index],
@@ -90,10 +103,10 @@ public class ProductCatalog {
             // Create set of Specifications
             ArrayList<ProductSpecification> listOfSpecification = new ArrayList<>(productCatalogHashMap.values());
 
-//            // NEED TO SET UP
-//            listOfSpecification.sort();
+            // NEED TO SET UP
+            Collections.sort(listOfSpecification);
 
-            int index = 0, length = 0;
+            int index = 0, lengthCounter = 0;
             String productString = "", prevString = "";
 
             while (index < listOfSpecification.size()) {
@@ -101,11 +114,11 @@ public class ProductCatalog {
                         listOfSpecification.get(index).getProductName() + "," +
                         currencyFormat.format(listOfSpecification.get(index).getProductPrice()) + ",";
 
-                randomAccessProductFile.writeProductToRandomAccessProductFile(length,productString);
+                randomAccessProductFile.writeProductToRandomAccessProductFile(lengthCounter,productString);
 
                 prevString = productString;
 
-                length += productString.length();
+                lengthCounter += productString.length();
 
                 // Increase index counter
                 index += 1;
@@ -113,14 +126,14 @@ public class ProductCatalog {
 
             // Remove any extra bytes from end of randomAccessProductFile
             // Check if file length is longer than new file input
-            if (length > randomAccessProductFile.length()) {
+            if (lengthCounter > randomAccessProductFile.length()) {
                 StringBuilder newInput = new StringBuilder();
 
                 // Set RandomAccessFile to beginning
                 randomAccessProductFile.seek(0);
 
                 // Copy up to new length then reset length of file
-                while (randomAccessProductFile.getFilePointer() < length) {
+                while (randomAccessProductFile.getFilePointer() < lengthCounter) {
                     // Append string to buffer
                     newInput.append(randomAccessProductFile.readLine());
                 }
@@ -197,5 +210,9 @@ public class ProductCatalog {
      */
     public ProductSpecification getProductSpecification(String key) {
         return productCatalogHashMap.getOrDefault(key, null);
+    }
+
+    public ArrayList<ProductSpecification> getListOfSpecification() {
+        return listOfSpecification;
     }
 }

@@ -1,11 +1,12 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class RandomAccessProductFile extends RandomAccessFile {
 
-    public RandomAccessProductFile(String name, String mode) throws FileNotFoundException {
-        super(name, mode);
+    public RandomAccessProductFile(File file, String mode) throws FileNotFoundException {
+        super(file, mode);
     }
 
     public String readProductFromRandomAccessProductFile(int position) {
