@@ -36,6 +36,11 @@ public class Sale {
         subtotalTax = BigDecimal.valueOf(0);
     }
 
+    // Returns boolean based on if arrayList is empty, true = empty, false = at least one product is included
+    public boolean checkIfEmpty() {
+        return salesLineItemArrayList.size() == 0;
+    }
+
     /**
      * If salesLineItem is already created then set total and quantities counters to new values. If salesLineItem is new
      * then add salesLineItem using specification, quantity, and price inputs

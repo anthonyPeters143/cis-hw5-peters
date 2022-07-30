@@ -78,17 +78,20 @@ public class Register {
             outputDoubleFormat = "%21s%s",
             outputErrorDoubleNewLineFormat = "%-21s%n%s%n", outputEODFormat = "%n%s%s",
             changeFormat = "%-21s$%7s%n%s%n", outputItemTotalFormat = "%22s%7s%n",
-        recipeStringFormat = "%n%s%n%21s%s%n%21s%s%n%21s%s%n%22s%7s";
+        recipeStringFormat = "%n%22s%s%n%21s%s%n%21s%s%n%24s%7s%n";
 
     /**
      * Format for currency
      */
-    private static DecimalFormat currencyFormat = new DecimalFormat("#,###.00");
+    private static DecimalFormat currencyFormat;
 
     /**
      * Aug. Constructor
      */
     Register(DecimalFormat moneyFormat, String fileName) {
+        // Create Sale
+        sale = new Sale();
+
         // Set currency format
         currencyFormat = moneyFormat;
 
@@ -103,6 +106,15 @@ public class Register {
 
     // Add product to sale, returns String for receiptTextArea
     public String addProductToSale (String codeInput, int quantityInput) {
+        // Create return string
+        String returnString = "";
+
+        // Check if sale already created
+        if (sale.checkIfEmpty()) {
+            // Add line break
+            returnString = "\n" + BREAK_LINE;
+        }
+
         // Get product from code
         ProductSpecification addedSpecification = productCatalog.getProductSpecification(codeInput);
 
@@ -112,13 +124,14 @@ public class Register {
         // Add product to sale
         sale.addSalesLineItem(addedSpecification,quantityInput,productPriceTotal);
 
-        // Return string including line break, product code, product name, product quantity, and product total
-        return String.format(recipeStringFormat,
-                BREAK_LINE,
+        // Concat returnString including line break, product code, product name, product quantity, and product total
+        returnString = returnString.concat(String.format(recipeStringFormat,
                 PRODUCT_CODE_RECEIPT_MESSAGE, addedSpecification.getProductCode(),
                 PRODUCT_NAME_RECEIPT_MESSAGE, addedSpecification.getProductName(),
                 PRODUCT_QUANTITY_RECEIPT_MESSAGE, quantityInput,
-                PRODUCT_TOTAL_RECEIPT_MESSAGE, currencyFormat.format(productPriceTotal));
+                PRODUCT_TOTAL_RECEIPT_MESSAGE, currencyFormat.format(productPriceTotal)));
+
+        return returnString;
     }
 
     /**
