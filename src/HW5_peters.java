@@ -110,8 +110,7 @@ public class HW5_peters extends Application {
                 TENDER_TITLE            = "Tendered Amount :",
                 CHANGE_TITLE            = "Change :",
 
-                SUBTOTAL_FIELD_DEFAULT = "0.00",
-                SUBTOTAL_TAX_FIELD_DEFAULT = "0.00",
+                TOTAL_FIELDS_DEFAULT = "0.00",
                 CHANGE_FIELD_DEFAULT = "0.00",
 
                 CHECKOUT_BUTTON_TITLE   = "Checkout",
@@ -244,9 +243,11 @@ public class HW5_peters extends Application {
         // Select code from itemDeleteComboBox
         // Create update event for delete field nodes
         productSpecificationDeleteComboBox.setOnAction(e -> {
-            itemAltDeleteCodeField.setText(productSpecificationDeleteComboBox.getValue().getProductCode());
-            itemAltDeleteNameField.setText(productSpecificationDeleteComboBox.getValue().getProductName());
-            itemAltDeletePriceField.setText(currencyFormat.format(productSpecificationDeleteComboBox.getValue().getProductPrice()));
+            if (!(productSpecificationDeleteComboBox == null)) {
+                itemAltDeleteCodeField.setText(productSpecificationDeleteComboBox.getValue().getProductCode());
+                itemAltDeleteNameField.setText(productSpecificationDeleteComboBox.getValue().getProductName());
+                itemAltDeletePriceField.setText(currencyFormat.format(productSpecificationDeleteComboBox.getValue().getProductPrice()));
+            }
         });
         productSpecificationDeleteComboBox.getEditor().setFont(bodyFont);
 
@@ -321,16 +322,17 @@ public class HW5_peters extends Application {
         // Select code from itemModifyComboBox
         // Create update event for modify field nodes
         productSpecificationModifyComboBox.setOnAction(e -> {
-            itemAltModifyCodeField.setText(productSpecificationModifyComboBox.getValue().getProductCode());
-            itemAltModifyNameField.setText(productSpecificationModifyComboBox.getValue().getProductName());
-            itemAltModifyPriceField.setText(currencyFormat.format(productSpecificationModifyComboBox.getValue().getProductPrice()));
+            if (!(productSpecificationModifyComboBox == null)) {
+                itemAltModifyCodeField.setText(productSpecificationModifyComboBox.getValue().getProductCode());
+                itemAltModifyNameField.setText(productSpecificationModifyComboBox.getValue().getProductName());
+                itemAltModifyPriceField.setText(currencyFormat.format(productSpecificationModifyComboBox.getValue().getProductPrice()));
+            }
         });
         productSpecificationModifyComboBox.getEditor().setFont(bodyFont);
 
         // Create Modify/Done buttons and button HBox
         Button modifyItemButton = new Button(MOD_ITEM_BUTTON_TITLE);
         modifyItemButton.setOnAction(e -> {
-
             if ( checkModifyProduct(itemAltModifyCodeField.getText(),itemAltModifyNameField.getText(),itemAltModifyPriceField.getText()) ) {
                 productSpecificationModifyComboBox.setValue(null);
                 itemAltModifyCodeField.setText("");
@@ -427,8 +429,8 @@ public class HW5_peters extends Application {
 
         // Create subtotal title/field HBox nodes
         Label subtotalTitle = new Label(SUBTOTAL_TITLE);
-        TextField subtotalField = new TextField(SUBTOTAL_FIELD_DEFAULT);
-//        subtotalField.textProperty().addListener((observable, oldValue, newValue) -> subtotalInput = newValue);
+        TextField subtotalField = new TextField();
+        subtotalField.setPromptText(TOTAL_FIELDS_DEFAULT);
         HBox subtotalHB = new HBox(subtotalTitle,subtotalField);
         subtotalTitle.setFont(bodyFont);
         subtotalField.setFont(bodyFont);
@@ -436,8 +438,8 @@ public class HW5_peters extends Application {
         subtotalHB.setAlignment(Pos.CENTER);
 
         Label subtotalTaxTitle = new Label(SUBTOTAL_TAX_TITLE);
-        TextField subtotalTaxField = new TextField(SUBTOTAL_TAX_FIELD_DEFAULT);
-//        subtotalTaxField.textProperty().addListener((observable, oldValue, newValue) -> subtotalTaxInput = newValue);
+        TextField subtotalTaxField = new TextField();
+        subtotalTaxField.setPromptText(TOTAL_FIELDS_DEFAULT);
         HBox subtotalTaxHB = new HBox(subtotalTaxTitle,subtotalTaxField);
         subtotalTaxTitle.setFont(bodyFont);
         subtotalTaxField.setFont(bodyFont);
@@ -446,7 +448,7 @@ public class HW5_peters extends Application {
 
         Label tenderTitle = new Label(TENDER_TITLE);
         TextField tenderTF = new TextField();
-//        tenderTF.textProperty().addListener((observable, oldValue, newValue) -> tenderInput = newValue);
+        tenderTF.setPromptText(TYPE_HERE_DEFAULT);
         HBox tenderHB = new HBox(tenderTitle,tenderTF);
         tenderTitle.setFont(bodyFont);
         tenderTF.setFont(bodyFont);
@@ -454,7 +456,8 @@ public class HW5_peters extends Application {
         tenderHB.setAlignment(Pos.CENTER);
 
         Label changeTitle = new Label(CHANGE_TITLE);
-        TextField changeField = new TextField(CHANGE_FIELD_DEFAULT);
+        TextField changeField = new TextField();
+        changeField.setPromptText(TOTAL_FIELDS_DEFAULT);
         HBox changeHB = new HBox(changeTitle,changeField);
         changeTitle.setFont(bodyFont);
         changeField.setFont(bodyFont);
@@ -507,9 +510,11 @@ public class HW5_peters extends Application {
         // Select item from itemSaleComboBox
         // Create update event for sale field nodes
         productSpecificationSaleComboBox.setOnAction(e -> {
-            itemSaleCodeField.setText(productSpecificationSaleComboBox.getValue().getProductCode());
-            itemSaleNameField.setText(productSpecificationSaleComboBox.getValue().getProductName());
-            itemSalePriceField.setText(currencyFormat.format(productSpecificationSaleComboBox.getValue().getProductPrice()));
+            if (!(productSpecificationSaleComboBox.getValue() == null)) {
+                itemSaleCodeField.setText(productSpecificationSaleComboBox.getValue().getProductCode());
+                itemSaleNameField.setText(productSpecificationSaleComboBox.getValue().getProductName());
+                itemSalePriceField.setText(currencyFormat.format(productSpecificationSaleComboBox.getValue().getProductPrice()));
+            }
         });
         productSpecificationSaleComboBox.getEditor().setFont(bodyFont);
 
@@ -518,7 +523,7 @@ public class HW5_peters extends Application {
         addButton.setOnAction(event -> {
             try {
                 if ( (Integer.parseInt(itemSaleQuantityField.getText()) > 0) && !(itemSaleCodeField.getText().equals(""))) {
-                    // Update receipt text
+                    // Add product to sale and update receipt text
                     String newReceiptText = addSaleProduct(itemSaleCodeField.getText(), itemSaleQuantityField.getText());
                     RECEIPT_TEXT = RECEIPT_TEXT.concat(newReceiptText);
 
@@ -534,11 +539,12 @@ public class HW5_peters extends Application {
                         // Set textArea to updated textArea
                         receiptTextArea.setText(RECEIPT_TEXT);
 
-                        // UPDATE SUBTOTALS
-                        // NTD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        // Update subtotal fields
+                        subtotalField.setText(currencyFormat.format(register.getSubtotal()));
+                        subtotalTaxField.setText(currencyFormat.format(register.getSubtotalTax()));
                     }
                 }
-            } catch (NumberFormatException numberFormatException) {
+            } catch (Exception exception) {
                 // Reset input field
                 itemSaleQuantityField.setText("");
             }
@@ -550,10 +556,30 @@ public class HW5_peters extends Application {
         saleTopVB.setSpacing(sceneSpace);
         saleTopVB.setAlignment(Pos.CENTER);
 
-
-
         // Create checkout button node
         Button checkoutButton = new Button(CHECKOUT_BUTTON_TITLE);
+        checkoutButton.setOnAction(event -> {
+            // Check if tenderField is not empty
+            if (!tenderTF.getText().equals("")) {
+                // Try checkout
+                if (checkOut(tenderTF.getText())) {
+                    // Update subtotal fields
+                    subtractAgainstTender()
+
+
+                    // Update change fields
+
+
+                    // Update receipt field
+
+
+                } else {
+                    // Reset tender field
+                    tenderTF.setText("");
+
+                }
+            }
+        });
         checkoutButton.setFont(buttonFont);
 
         // Create subtotal VBox
@@ -750,12 +776,18 @@ public class HW5_peters extends Application {
             // Input is invalid
             return "";
         }
-
         return "";
     }
 
-
-
+    // Returns boolean, true = valid, false = invalid
+    private static boolean checkOut(String tenderInput) {
+        try {
+            // Convert tender into Double and checkout from register
+            return register.checkOut(Double.parseDouble(tenderInput));
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     /**
      * Start GUI

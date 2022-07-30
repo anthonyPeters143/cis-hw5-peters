@@ -134,6 +134,12 @@ public class Register {
         return returnString;
     }
 
+    // Check if tendered amount is bigger than subtotalTax, If so
+    public boolean checkOut (Double tenderInput) {
+        // Convert tender input to BigDecimal
+        return sale.checkCheckoutTotal(BigDecimal.valueOf(tenderInput));
+    }
+
     /**
      * Add product to Catalog
      */
@@ -185,5 +191,13 @@ public class Register {
 
     public ObservableList<ProductSpecification> getProductSpecificationModifyObservableList() {
         return productSpecificationModifyObservableList;
+    }
+
+    public BigDecimal getSubtotal() {
+        return sale.getSubtotal();
+    }
+
+    public BigDecimal getSubtotalTax() {
+        return sale.getSubtotalTax();
     }
 }

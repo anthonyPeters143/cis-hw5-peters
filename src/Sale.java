@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,24 +42,37 @@ public class Sale {
         return salesLineItemArrayList.size() == 0;
     }
 
+    // Returns true if tender >= subtotalTax, false if not
+    public boolean checkCheckoutTotal(BigDecimal tenderInput) {
+        return subtotalTax.compareTo(tenderInput) >= 0;
+    }
+
     /**
      * If salesLineItem is already created then set total and quantities counters to new values. If salesLineItem is new
      * then add salesLineItem using specification, quantity, and price inputs
      *
      * @param specification ProductSpecification, productSpecification to be added
      * @param quantity int, amount of products
-     * @param price BigDecimal, price total of products
+     * @param priceTotal BigDecimal, price total of products
      */
-    public void addSalesLineItem(ProductSpecification specification, int quantity, BigDecimal price){
-        // Add total to end of day total
-        eodTotal = eodTotal.add(price);
+    public void addSalesLineItem(ProductSpecification specification, int quantity, BigDecimal priceTotal){
+        // Add totals to totals
+        eodTotal = eodTotal.add(priceTotal);
+        subtotal = subtotal.add(priceTotal);
+        if (specification.getProductTaxable()) {
+            // Taxable
+            subtotalTax = subtotalTax.add(priceTotal.multiply(BigDecimal.valueOf(0)));
+        } else {
+            // Non-taxable
+            subtotalTax = subtotalTax.add(priceTotal);
+        }
 
         // Loop array list to check if SalesLineItem is already created
         for (SalesLineItem SalesLineItemTracker : salesLineItemArrayList) {
             if (specification.getProductCode().equals(SalesLineItemTracker.getProductCode())){
                 // SalesLineItem tracker already created
                 // Set the salesLineItem's price to the new total plus the old total
-                SalesLineItemTracker.setProductTotal((SalesLineItemTracker.getProductTotal()).add(price));
+                SalesLineItemTracker.setProductTotal((SalesLineItemTracker.getProductTotal()).add(priceTotal));
 
                 // Set the salesLineItem's quantity to the new amount plus the old amount
                 SalesLineItemTracker.setProductQuantity(quantity + SalesLineItemTracker.getProductQuantity());
@@ -68,7 +82,7 @@ public class Sale {
         }
 
         // Item not found, create new item tracker
-        salesLineItemArrayList.add(new SalesLineItem(specification,quantity,price));
+        salesLineItemArrayList.add(new SalesLineItem(specification,quantity,priceTotal));
     }
 
     /**
@@ -111,9 +125,10 @@ public class Sale {
                             currencyFormat.format(salesLineItemTracker.getProductTotal())) );
         }
 
-        // Find subtotals
-        subtotal = taxableTotal.add(nontaxableTotal);
-        subtotalTax = (taxableTotal.multiply(BigDecimal.valueOf(.06))).add(taxableTotal.add(nontaxableTotal));
+        // ADDED EARLIER WHEN ADDING PRODUCTS TO SALESLINEITEM
+//        // Find subtotals
+//        subtotal = taxableTotal.add(nontaxableTotal);
+//        subtotalTax = (taxableTotal.multiply(BigDecimal.valueOf(.06))).add(taxableTotal.add(nontaxableTotal));
 
         // Compile subtotals then format strings and concat to receipt string
         receiptString = receiptString.concat(
