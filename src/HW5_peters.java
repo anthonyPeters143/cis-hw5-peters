@@ -100,6 +100,10 @@ public class HW5_peters extends Application {
                 DATA_ALT_BUTTON_TITLE   = "Data Alteration",
                 QUIT_BUTTON_TITLE       = "Quit",
 
+                PRODUCT_CODE_TITLE  = "Product Code :",
+                PRODUCT_NAME_TITLE  = "Product Name :",
+                PRODUCT_PRICE_TITLE = "Product Price :",
+
                 ITEM_NAME_TITLE     = "Item Name :",
                 ITEM_PRICE_TITLE    = "Item Price :",
                 ITEM_QUANTITY_TITLE = "Quantity :",
@@ -119,13 +123,13 @@ public class HW5_peters extends Application {
                 ITEM_SALE_TITLE         = "Item Sale",
                 MAIN_TITLE              = "Welcome to Peter's Store!!!",
 
-                ADD_ITEM_BUTTON_TITLE   = "Add Item",
-                DELETE_ITEM_BUTTON_TITLE= "Delete Item",
-                MOD_ITEM_BUTTON_TITLE   = "Modify Item",
+                ADD_PRODUCT_BUTTON_TITLE   = "Add Product",
+                DELETE_PRODUCT_BUTTON_TITLE= "Delete Product",
+                MODIFY_PRODUCT_BUTTON_TITLE   = "Modify Product",
 
-                ADD_ITEM_TITLE    = "Add Item",
-                DELETE_ITEM_TITLE = "Delete Item",
-                MODIFY_ITEM_TITLE = "Modify Item",
+                ADD_PRODUCT_TITLE    = "Add Product",
+                DELETE_PRODUCT_TITLE = "Delete Product",
+                MODIFY_PRODUCT_TITLE = "Modify Product",
 
                 NEED_QUANTITY_ERROR = "Need Quantity";
 
@@ -138,30 +142,27 @@ public class HW5_peters extends Application {
 
         // Add scene
         // Create dataAlt add title/field VBox node
-        Label itemAltAddCodeTitle = new Label(ITEM_NAME_TITLE);
+        Label itemAltAddCodeTitle = new Label(PRODUCT_CODE_TITLE);
         TextField itemAltAddCodeField = new TextField();
         itemAltAddCodeField.setPromptText(TYPE_HERE_DEFAULT);
-//        itemAltAddCodeField.textProperty().addListener((observable, oldValue, newValue) -> itemAltAddCodeInput = newValue);
         HBox itemAltAddCodeHB = new HBox(itemAltAddCodeTitle,itemAltAddCodeField);
         itemAltAddCodeTitle.setFont(bodyFont);
         itemAltAddCodeField.setFont(bodyFont);
         itemAltAddCodeHB.setSpacing(sceneSpace);
         itemAltAddCodeHB.setAlignment(Pos.CENTER);
 
-        Label itemAltAddNameTitle = new Label(ITEM_PRICE_TITLE);
+        Label itemAltAddNameTitle = new Label(PRODUCT_NAME_TITLE);
         TextField itemAltAddNameField = new TextField();
         itemAltAddNameField.setPromptText(TYPE_HERE_DEFAULT);
-//        itemAltAddNameField.textProperty().addListener((observable, oldValue, newValue) -> itemAltAddNameInput = newValue);
         HBox itemAltAddNameHB = new HBox(itemAltAddNameTitle,itemAltAddNameField);
         itemAltAddNameTitle.setFont(bodyFont);
         itemAltAddNameField.setFont(bodyFont);
         itemAltAddNameHB.setSpacing(sceneSpace);
         itemAltAddNameHB.setAlignment(Pos.CENTER);
 
-        Label itemAltAddPriceTitle = new Label(ITEM_TOTAL_TITLE);
+        Label itemAltAddPriceTitle = new Label(PRODUCT_PRICE_TITLE);
         TextField itemAltAddPriceField = new TextField();
         itemAltAddPriceField.setPromptText(TYPE_HERE_DEFAULT);
-//        itemAltAddPriceField.textProperty().addListener((observable, oldValue, newValue) -> itemAltAddPriceInput = newValue);
         HBox itemAltAddPriceHB = new HBox(itemAltAddPriceTitle,itemAltAddPriceField);
         itemAltAddPriceTitle.setFont(bodyFont);
         itemAltAddPriceField.setFont(bodyFont);
@@ -174,11 +175,11 @@ public class HW5_peters extends Application {
         itemAltAddTitleFieldVB.setAlignment(Pos.CENTER);
 
         // Create add item scene title
-        Label addItemAltSceneTitle = new Label(ADD_ITEM_TITLE);
+        Label addItemAltSceneTitle = new Label(ADD_PRODUCT_TITLE);
         addItemAltSceneTitle.setFont(titleFont);
 
         // Create Add/Done buttons and button HBox
-        Button addItemButton = new Button(ADD_ITEM_BUTTON_TITLE);
+        Button addItemButton = new Button(ADD_PRODUCT_BUTTON_TITLE);
         addItemButton.setOnAction(e -> {
             // Try to add productSpecification to product catalog, if valid then fields will be erased
             if ( checkAddProduct(itemAltAddCodeField.getText(),itemAltAddNameField.getText(),itemAltAddPriceField.getText()) ) {
@@ -207,28 +208,31 @@ public class HW5_peters extends Application {
 
         // Delete scene
         // Create delete item scene title
-        Label deleteItemAltSceneTitle = new Label(DELETE_ITEM_TITLE);
+        Label deleteItemAltSceneTitle = new Label(DELETE_PRODUCT_TITLE);
         deleteItemAltSceneTitle.setFont(titleFont);
 
         // Create dataAlt delete title/field VBox node
-        Label itemAltDeleteCodeTitle = new Label(ITEM_NAME_TITLE);
+        Label itemAltDeleteCodeTitle = new Label(PRODUCT_CODE_TITLE);
         TextField itemAltDeleteCodeField = new TextField();
+        itemAltDeleteCodeField.setPromptText(SELECT_COMBO_DEFAULT);
         HBox itemAltDeleteCodeHB = new HBox(itemAltDeleteCodeTitle,itemAltDeleteCodeField);
         itemAltDeleteCodeTitle.setFont(bodyFont);
         itemAltDeleteCodeField.setFont(bodyFont);
         itemAltDeleteCodeHB.setSpacing(sceneSpace);
         itemAltDeleteCodeHB.setAlignment(Pos.CENTER);
 
-        Label itemAltDeleteNameTitle = new Label(ITEM_PRICE_TITLE);
+        Label itemAltDeleteNameTitle = new Label(PRODUCT_NAME_TITLE);
         TextField itemAltDeleteNameField = new TextField();
+        itemAltDeleteNameField.setPromptText(SELECT_COMBO_DEFAULT);
         HBox itemAltDeleteNameHB = new HBox(itemAltDeleteNameTitle,itemAltDeleteNameField);
         itemAltDeleteNameTitle.setFont(bodyFont);
         itemAltDeleteNameField.setFont(bodyFont);
         itemAltDeleteNameHB.setSpacing(sceneSpace);
         itemAltDeleteNameHB.setAlignment(Pos.CENTER);
 
-        Label itemAltDeletePriceTitle = new Label(ITEM_TOTAL_TITLE);
+        Label itemAltDeletePriceTitle = new Label(PRODUCT_PRICE_TITLE);
         TextField itemAltDeletePriceField = new TextField();
+        itemAltDeletePriceField.setPromptText(SELECT_COMBO_DEFAULT);
         HBox itemAltDeletePriceHB = new HBox(itemAltDeletePriceTitle,itemAltDeletePriceField);
         itemAltDeletePriceTitle.setFont(bodyFont);
         itemAltDeletePriceField.setFont(bodyFont);
@@ -252,7 +256,7 @@ public class HW5_peters extends Application {
         productSpecificationDeleteComboBox.getEditor().setFont(bodyFont);
 
         // Create Delete/Done buttons and button HBox
-        Button deleteItemButton = new Button(DELETE_ITEM_BUTTON_TITLE);
+        Button deleteItemButton = new Button(DELETE_PRODUCT_BUTTON_TITLE);
         deleteItemButton.setOnAction(e -> {
             // Try to delete productSpecification from product catalog, if valid then fields will be erased
             if (checkDeleteProduct(itemAltDeleteCodeField.getText())) {
@@ -282,7 +286,7 @@ public class HW5_peters extends Application {
 
         // Modify Scene
         // Create dataAlt modify title/field VBox node
-        Label itemAltModifyCodeTitle = new Label(ITEM_NAME_TITLE);
+        Label itemAltModifyCodeTitle = new Label(PRODUCT_CODE_TITLE);
         TextField itemAltModifyCodeField = new TextField();
         itemAltModifyCodeField.setPromptText(SELECT_COMBO_DEFAULT);
         HBox itemAltModifyCodeHB = new HBox(itemAltModifyCodeTitle,itemAltModifyCodeField);
@@ -291,7 +295,7 @@ public class HW5_peters extends Application {
         itemAltModifyCodeHB.setSpacing(sceneSpace);
         itemAltModifyCodeHB.setAlignment(Pos.CENTER);
 
-        Label itemAltModifyNameTitle = new Label(ITEM_PRICE_TITLE);
+        Label itemAltModifyNameTitle = new Label(PRODUCT_NAME_TITLE);
         TextField itemAltModifyNameField = new TextField();
         itemAltModifyNameField.setPromptText(SELECT_COMBO_DEFAULT);
         HBox itemAltModifyNameHB = new HBox(itemAltModifyNameTitle,itemAltModifyNameField);
@@ -300,7 +304,7 @@ public class HW5_peters extends Application {
         itemAltModifyNameHB.setSpacing(sceneSpace);
         itemAltModifyNameHB.setAlignment(Pos.CENTER);
 
-        Label itemAltModifyPriceTitle = new Label(ITEM_TOTAL_TITLE);
+        Label itemAltModifyPriceTitle = new Label(PRODUCT_PRICE_TITLE);
         TextField itemAltModifyPriceField = new TextField();
         itemAltModifyPriceField.setPromptText(SELECT_COMBO_DEFAULT);
         HBox itemAltModifyPriceHB = new HBox(itemAltModifyPriceTitle,itemAltModifyPriceField);
@@ -316,7 +320,7 @@ public class HW5_peters extends Application {
 
         // Modify scene
         // Create modify item scene title
-        Label modifyItemAltSceneTitle = new Label(MODIFY_ITEM_TITLE);
+        Label modifyItemAltSceneTitle = new Label(MODIFY_PRODUCT_TITLE);
         modifyItemAltSceneTitle.setFont(titleFont);
 
         // Select code from itemModifyComboBox
@@ -331,7 +335,7 @@ public class HW5_peters extends Application {
         productSpecificationModifyComboBox.getEditor().setFont(bodyFont);
 
         // Create Modify/Done buttons and button HBox
-        Button modifyItemButton = new Button(MOD_ITEM_BUTTON_TITLE);
+        Button modifyItemButton = new Button(MODIFY_PRODUCT_BUTTON_TITLE);
         modifyItemButton.setOnAction(e -> {
             if ( checkModifyProduct(itemAltModifyCodeField.getText(),itemAltModifyNameField.getText(),itemAltModifyPriceField.getText()) ) {
                 productSpecificationModifyComboBox.setValue(null);
@@ -364,25 +368,27 @@ public class HW5_peters extends Application {
         dataAltLabel.setFont(titleFont);
 
         // Create dataAlt button nodes
-        Button dataAltAddItemButton = new Button(ADD_ITEM_BUTTON_TITLE);
+        Button dataAltAddItemButton = new Button(ADD_PRODUCT_BUTTON_TITLE);
         dataAltAddItemButton.setOnAction(e -> {
-            // Resetting shared input fields in scene
-            itemAltAddCodeField.setText(TYPE_HERE_DEFAULT);
-            itemAltAddNameField.setText(TYPE_HERE_DEFAULT);
-            itemAltAddPriceField.setText(TYPE_HERE_DEFAULT);
+            // Resetting input fields in scene
+            itemAltAddCodeField.setText("");
+            itemAltAddNameField.setText("");
+            itemAltAddPriceField.setText("");
             primaryStage.setScene(addItemScene);
         });
-        Button dataAltDeleteItemButton = new Button(DELETE_ITEM_BUTTON_TITLE);
+        Button dataAltDeleteItemButton = new Button(DELETE_PRODUCT_BUTTON_TITLE);
         dataAltDeleteItemButton.setOnAction(e -> {
-            // Resetting shared input fields in scene
+            // Resetting input fields in scene
+            productSpecificationDeleteComboBox.setValue(null);
             itemAltDeleteCodeField.setText("");
             itemAltDeleteNameField.setText("");
             itemAltDeletePriceField.setText("");
             primaryStage.setScene(deleteItemScene);
         });
-        Button dataAltModItemButton = new Button(MOD_ITEM_BUTTON_TITLE);
+        Button dataAltModItemButton = new Button(MODIFY_PRODUCT_BUTTON_TITLE);
         dataAltModItemButton.setOnAction(e -> {
-            // Resetting shared input fields in scene
+            // Resetting input fields in scene
+            productSpecificationModifyComboBox.setValue(null);
             itemAltModifyCodeField.setText("");
             itemAltModifyNameField.setText("");
             itemAltModifyPriceField.setText("");
@@ -522,6 +528,12 @@ public class HW5_peters extends Application {
         Button addButton = new Button(ADD_BUTTON_TITLE);
         addButton.setOnAction(event -> {
             try {
+                if (checkSaleAmount() == 0) {
+                    // Empty
+                    // Reset change field
+                    changeField.setText("");
+                }
+
                 if ( (Integer.parseInt(itemSaleQuantityField.getText()) > 0) && !(itemSaleCodeField.getText().equals(""))) {
                     // Add product to sale and update receipt text
                     String newReceiptText = addSaleProduct(itemSaleCodeField.getText(), itemSaleQuantityField.getText());
@@ -559,25 +571,37 @@ public class HW5_peters extends Application {
         // Create checkout button node
         Button checkoutButton = new Button(CHECKOUT_BUTTON_TITLE);
         checkoutButton.setOnAction(event -> {
-            // Check if tenderField is not empty
-            if (!tenderTF.getText().equals("")) {
-                // Try checkout
-                if (checkOut(tenderTF.getText())) {
-                    // Update subtotal fields
-                    subtractAgainstTender()
+            try {
+                // Check if tenderField is not empty and the tenderTF is bigger or equal to subtotalTaxField
+                if (!tenderTF.getText().equals("") &&
+                        (Double.parseDouble(tenderTF.getText()) >= Double.parseDouble(subtotalTaxField.getText())) ) {
+                    // Try checkout
+                    if (checkOut(tenderTF.getText())) {
+                        // Set up change value
+                        Double changeAmount = Double.parseDouble(tenderTF.getText()) - Double.parseDouble(subtotalTaxField.getText());
 
+                        // Update receipt field
+                        RECEIPT_TEXT = RECEIPT_TEXT.concat(checkOutReceiptString(tenderTF.getText(),subtotalTaxField.getText()));
+                        receiptTextArea.setText(RECEIPT_TEXT);
 
-                    // Update change fields
+                        // Update change fields
+                        changeField.setText(currencyFormat.format(changeAmount));
 
+                        // Update register fields
+                        register.resetSale();
 
-                    // Update receipt field
-
-
+                        // Update GUI total fields
+                        subtotalField.setText("");
+                        subtotalTaxField.setText("");
+                        tenderTF.setText("");
+                    }
                 } else {
                     // Reset tender field
                     tenderTF.setText("");
-
                 }
+            } catch (NumberFormatException numberFormatException) {
+                // Reset tender field
+                tenderTF.setText("");
             }
         });
         checkoutButton.setFont(buttonFont);
@@ -649,7 +673,7 @@ public class HW5_peters extends Application {
         updateComboBoxes();
     }
 
-    private void updateComboBoxes() {
+    private static void updateComboBoxes() {
         // Update observable list
         productSpecificationSaleObservableList = register.getProductSpecificationSaleObservableList();
         productSpecificationDeleteObservableList = register.getProductSpecificationDeleteObservableList();
@@ -679,6 +703,9 @@ public class HW5_peters extends Application {
                 // Add product to register
                 register.addProductCatalogProduct(codeInput,nameInput,Double.parseDouble(priceInput));
 
+                // Update ObservationList and ComboBoxes
+                updateComboBoxes();
+
                 return true;
 
             } else {
@@ -707,6 +734,9 @@ public class HW5_peters extends Application {
 
                 // Remove product from register
                 register.deleteProductCatalogProduct(codeInput);
+
+                // Update ObservationList and ComboBoxes
+                updateComboBoxes();
 
                 return true;
 
@@ -739,6 +769,9 @@ public class HW5_peters extends Application {
 
                 // Modify product from register
                 register.modifyProductCatalogProduct(codeInput,nameInput, Double.valueOf(priceInput));
+
+                // Update ObservationList and ComboBoxes
+                updateComboBoxes();
 
                 return true;
 
@@ -777,6 +810,16 @@ public class HW5_peters extends Application {
             return "";
         }
         return "";
+    }
+
+    // Returns true if sale is empty, false if not
+    private static int checkSaleAmount() {
+        return register.checkIfAmount();
+    }
+
+    private static String checkOutReceiptString(String tenderInput, String subtotalTaxInput) {
+        // Find change amount and return String of receipt
+        return register.checkOutReceiptString(Double.parseDouble(tenderInput) - Double.parseDouble(subtotalTaxInput));
     }
 
     // Returns boolean, true = valid, false = invalid

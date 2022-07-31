@@ -98,10 +98,8 @@ public class Register {
         // Initialize ProductCatalog
         productCatalog = new ProductCatalog(fileName,currencyFormat);
 
-        // Create observable lists
-        productSpecificationSaleObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
-        productSpecificationDeleteObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
-        productSpecificationModifyObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
+        // Update observable lists
+        updateList();
     }
 
     // Add product to sale, returns String for receiptTextArea
@@ -134,9 +132,36 @@ public class Register {
         return returnString;
     }
 
+    // Update observable lists from product catalog
+    public void updateList() {
+        productSpecificationSaleObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
+        productSpecificationDeleteObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
+        productSpecificationModifyObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
+    }
+
+    // Return size of salesLineItem list
+    public int checkIfAmount() {
+        return sale.checkSize();
+    }
+
+    public void resetSale() {
+        sale.resetSale();
+    }
+
+    public String checkOutReceiptString(Double changeAmountInput) {
+        String topReceiptString = sale.createReceipt(currencyFormat);
+
+        String bottomReceiptString = String.format("%n%-25s$%7s%n%s%n",
+                CHANGE_AMOUNT,
+                currencyFormat.format(changeAmountInput),
+                RECEIPT_LINE);
+
+        return topReceiptString + bottomReceiptString;
+    }
+
     // Check if tendered amount is bigger than subtotalTax, If so
     public boolean checkOut (Double tenderInput) {
-        // Convert tender input to BigDecimal
+        // Convert tender input to BigDecimal and check if value is bigger or equal to subtotalTax field of Sale
         return sale.checkCheckoutTotal(BigDecimal.valueOf(tenderInput));
     }
 
@@ -146,6 +171,9 @@ public class Register {
     public void addProductCatalogProduct(String codeInput, String nameInput, Double priceInput) {
         // Add productSpecification to productCatalog
         productCatalog.addProductSpecification(codeInput,nameInput,BigDecimal.valueOf(priceInput));
+
+        // Update observable lists
+        updateList();
     }
 
     /**
@@ -154,6 +182,9 @@ public class Register {
     public void deleteProductCatalogProduct(String codeInput) {
         // Delete item from item list
         productCatalog.deleteProductSpecification(codeInput);
+
+        // Update observable lists
+        updateList();
     }
 
     /**
@@ -165,6 +196,9 @@ public class Register {
 
         // Add new productSpecification
         productCatalog.addProductSpecification(codeInput,nameInput,BigDecimal.valueOf(priceInput));
+
+        // Update observable lists
+        updateList();
     }
 
     // Checks if code == key in hashmap, returns true if created, false if not
