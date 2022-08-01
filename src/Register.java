@@ -136,10 +136,6 @@ public class Register {
     // Update observable lists from product catalog
     public void updateList() {
         productSpecificationObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
-
-//        productSpecificationSaleObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
-//        productSpecificationDeleteObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
-//        productSpecificationModifyObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
     }
 
     // Return size of salesLineItem list

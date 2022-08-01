@@ -240,16 +240,33 @@ public class HW5_peters extends Application {
         itemAltDeleteTitleFieldVB.setSpacing(sceneSpace);
         itemAltDeleteTitleFieldVB.setAlignment(Pos.CENTER);
 
+//        // Select code from itemDeleteComboBox
+//        // Create update event for delete field nodes
+//        productSpecificationDeleteComboBox.setOnAction(e -> {
+//            if (!(productSpecificationDeleteComboBox == null)) {
+//                // Set fields to product values
+//                itemAltDeleteCodeField.setText(productSpecificationDeleteComboBox.getValue().getProductCode());
+//                itemAltDeleteNameField.setText(productSpecificationDeleteComboBox.getValue().getProductName());
+//                itemAltDeletePriceField.setText(currencyFormat.format(productSpecificationDeleteComboBox.getValue().getProductPrice()));
+//            } else {
+//                // Set fields to non-values
+//                itemAltDeleteCodeField.setText("");
+//                itemAltDeleteNameField.setText("");
+//                itemAltDeletePriceField.setText("");
+//            }
+//        });
+//        productSpecificationDeleteComboBox.getEditor().setFont(bodyFont);
+
         // Select code from itemDeleteComboBox
         // Create update event for delete field nodes
         productSpecificationDeleteComboBox.setOnAction(e -> {
-            if (!(productSpecificationDeleteComboBox == null)) {
+            try {
                 // Set fields to product values
                 itemAltDeleteCodeField.setText(productSpecificationDeleteComboBox.getValue().getProductCode());
                 itemAltDeleteNameField.setText(productSpecificationDeleteComboBox.getValue().getProductName());
                 itemAltDeletePriceField.setText(currencyFormat.format(productSpecificationDeleteComboBox.getValue().getProductPrice()));
-            } else {
-                // Set fields to non-values
+            } catch (NullPointerException nullPointerException) {
+                // Set fields to non-values if product not found
                 itemAltDeleteCodeField.setText("");
                 itemAltDeleteNameField.setText("");
                 itemAltDeletePriceField.setText("");
@@ -325,13 +342,34 @@ public class HW5_peters extends Application {
         Label modifyItemAltSceneTitle = new Label(MODIFY_PRODUCT_TITLE);
         modifyItemAltSceneTitle.setFont(titleFont);
 
+//        // Select code from itemModifyComboBox
+//        // Create update event for modify field nodes
+//        productSpecificationModifyComboBox.setOnAction(e -> {
+//            if (!(productSpecificationModifyComboBox == null)) {
+//                itemAltModifyCodeField.setText(productSpecificationModifyComboBox.getValue().getProductCode());
+//                itemAltModifyNameField.setText(productSpecificationModifyComboBox.getValue().getProductName());
+//                itemAltModifyPriceField.setText(currencyFormat.format(productSpecificationModifyComboBox.getValue().getProductPrice()));
+//            }
+//        });
+//        productSpecificationModifyComboBox.getEditor().setFont(bodyFont);
+
         // Select code from itemModifyComboBox
         // Create update event for modify field nodes
         productSpecificationModifyComboBox.setOnAction(e -> {
-            if (!(productSpecificationModifyComboBox == null)) {
+            try {
+                // Set fields to product values
                 itemAltModifyCodeField.setText(productSpecificationModifyComboBox.getValue().getProductCode());
                 itemAltModifyNameField.setText(productSpecificationModifyComboBox.getValue().getProductName());
                 itemAltModifyPriceField.setText(currencyFormat.format(productSpecificationModifyComboBox.getValue().getProductPrice()));
+            } catch (NullPointerException nullPointerException) {
+                // Set fields to non-values if product not found
+                itemAltModifyCodeField.setText("");
+                itemAltModifyNameField.setText("");
+                itemAltModifyPriceField.setText("");
+            }
+
+            if (!(productSpecificationModifyComboBox == null)) {
+
             }
         });
         productSpecificationModifyComboBox.getEditor().setFont(bodyFont);
@@ -407,7 +445,13 @@ public class HW5_peters extends Application {
         Button saleAltButton = new Button(SALE_BUTTON_TITLE);
         saleAltButton.setOnAction(e -> primaryStage.setScene(saleScene));
         Button quitAltButton = new Button(QUIT_BUTTON_TITLE);
-        quitAltButton.setOnAction(e -> saveAndQuit());
+        quitAltButton.setOnAction(e -> {
+            // Save data file
+            saveCatalog();
+
+            // Quit system
+            System.exit(0);
+        });
         HBox dataAltDoneQuitButtonHB = new HBox(saleAltButton,quitAltButton);
         saleAltButton.setFont(buttonFont);
         quitAltButton.setFont(buttonFont);
@@ -643,7 +687,13 @@ public class HW5_peters extends Application {
         Button newSaleButton = new Button(NEW_SALE_BUTTON_TITLE);
         Button quitButton = new Button(QUIT_BUTTON_TITLE);
         newSaleButton.setOnAction(e -> primaryStage.setScene(saleScene));
-        quitButton.setOnAction(event -> saveAndQuit());
+        quitButton.setOnAction(e -> {
+            // Save data file
+            saveCatalog();
+
+            // Quit system
+            System.exit(0);
+        });
         HBox mainButtonHB = new HBox(newSaleButton,quitButton);
         mainButtonHB.setSpacing(sceneSpace);
         mainButtonHB.setAlignment(Pos.CENTER);
@@ -682,12 +732,9 @@ public class HW5_peters extends Application {
     }
 
     // Quitting and saving product Catalog to item.txt file
-    private static void saveAndQuit() {
+    private static void saveCatalog() {
         // Save catalog
         register.saveCatalog();
-
-        // Quit system
-        System.exit(0);
     }
 
     // MIGHT BE ABLE TO REDUCE TO JUST ONE LIST

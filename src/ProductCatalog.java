@@ -119,23 +119,26 @@ public class ProductCatalog {
 
             // Remove any extra bytes from end of randomAccessProductFile
             // Check if file length is longer than new file input
-            if (lengthCounter > randomAccessProductFile.length()) {
-                StringBuilder newInput = new StringBuilder();
+            if (lengthCounter < randomAccessProductFile.length()) {
+//                StringBuilder newInput = new StringBuilder();
+//
+//                // Set RandomAccessFile to beginning
+//                randomAccessProductFile.seek(0);
+//
+//                // Copy up to new length then reset length of file
+//                while (randomAccessProductFile.getFilePointer() < lengthCounter) {
+//                    // Append string to buffer
+//                    newInput.append(randomAccessProductFile.readLine());
+//                }
 
-                // Set RandomAccessFile to beginning
-                randomAccessProductFile.seek(0);
+                // Set length of file to new length amount to remove end of file data
+                randomAccessProductFile.setLength(lengthCounter);
 
-                // Copy up to new length then reset length of file
-                while (randomAccessProductFile.getFilePointer() < lengthCounter) {
-                    // Append string to buffer
-                    newInput.append(randomAccessProductFile.readLine());
-                }
-
-                // Reset file
-                randomAccessProductFile.setLength(0);
-
-                // Set RandomAccessFile pointer to beginning and write string input into file
-                randomAccessProductFile.writeProductToRandomAccessProductFile(0,newInput.toString());
+//                // Reset file
+//                randomAccessProductFile.setLength(0);
+//
+//                // Set RandomAccessFile pointer to beginning and write string input into file
+//                randomAccessProductFile.writeProductToRandomAccessProductFile(0,newInput.toString());
             }
 
         } catch (IOException ioException) {
