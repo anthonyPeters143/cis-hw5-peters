@@ -13,9 +13,9 @@
 
 // VM OPTIONS --module-path "C:\Users\Anthony\SDKs\javafx-sdk-18.0.1\lib" --add-modules javafx.controls,javafx.fxml
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -663,6 +663,9 @@ public class HW5_peters extends Application {
     private void initialize(){
         // Create register object instance
         register = new Register(currencyFormat,FILE_NAME_KEY);
+
+        // Create Observer list
+        productSpecificationObservableList = FXCollections.observableList(register.getProductSpecificationSaleObservableList());
 
         productSpecificationSaleComboBox = new ComboBox<>(register.getProductSpecificationSaleObservableList());
         productSpecificationDeleteComboBox = new ComboBox<>(register.getProductSpecificationDeleteObservableList());
