@@ -11,6 +11,8 @@
 
 // Driver class for HW5
 
+// VM OPTIONS --module-path "C:\Users\Anthony\SDKs\javafx-sdk-18.0.1\lib" --add-modules javafx.controls,javafx.fxml
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import javafx.application.Application;
@@ -34,18 +36,12 @@ public class HW5_peters extends Application {
     private static Register register;
 
     /**
-     * Sale object
+     * Observation  List
      */
-    private static Sale sale;
+    private static ObservableList<ProductSpecification> productSpecificationObservableList;
 
     /**
-     * ObservableLists of Items
-     */
-    private static ObservableList<ProductSpecification> productSpecificationSaleObservableList,
-            productSpecificationDeleteObservableList,productSpecificationModifyObservableList;
-
-    /**
-     * Item ComboBox
+     * Product ComboBox
      */
     private static ComboBox<ProductSpecification> productSpecificationSaleComboBox,productSpecificationDeleteComboBox,
             productSpecificationModifyComboBox;
@@ -115,7 +111,6 @@ public class HW5_peters extends Application {
                 CHANGE_TITLE            = "Change :",
 
                 TOTAL_FIELDS_DEFAULT = "0.00",
-                CHANGE_FIELD_DEFAULT = "0.00",
 
                 CHECKOUT_BUTTON_TITLE   = "Checkout",
 
@@ -405,7 +400,7 @@ public class HW5_peters extends Application {
         Button saleAltButton = new Button(SALE_BUTTON_TITLE);
         saleAltButton.setOnAction(e -> primaryStage.setScene(saleScene));
         Button quitAltButton = new Button(QUIT_BUTTON_TITLE);
-        quitAltButton.setOnAction(e -> System.exit(0));
+        quitAltButton.setOnAction(e -> saveAndQuit());
         HBox dataAltDoneQuitButtonHB = new HBox(saleAltButton,quitAltButton);
         saleAltButton.setFont(buttonFont);
         quitAltButton.setFont(buttonFont);
@@ -641,7 +636,7 @@ public class HW5_peters extends Application {
         Button newSaleButton = new Button(NEW_SALE_BUTTON_TITLE);
         Button quitButton = new Button(QUIT_BUTTON_TITLE);
         newSaleButton.setOnAction(e -> primaryStage.setScene(saleScene));
-        quitButton.setOnAction(event -> System.exit(0));
+        quitButton.setOnAction(event -> saveAndQuit());
         HBox mainButtonHB = new HBox(newSaleButton,quitButton);
         mainButtonHB.setSpacing(sceneSpace);
         mainButtonHB.setAlignment(Pos.CENTER);
@@ -669,20 +664,29 @@ public class HW5_peters extends Application {
         // Create register object instance
         register = new Register(currencyFormat,FILE_NAME_KEY);
 
+        productSpecificationSaleComboBox = new ComboBox<>(register.getProductSpecificationSaleObservableList());
+        productSpecificationDeleteComboBox = new ComboBox<>(register.getProductSpecificationDeleteObservableList());
+        productSpecificationModifyComboBox = new ComboBox<>(register.getProductSpecificationModifyObservableList());
+
         // Update comboBoxes
         updateComboBoxes();
     }
 
-    private static void updateComboBoxes() {
-        // Update observable list
-        productSpecificationSaleObservableList = register.getProductSpecificationSaleObservableList();
-        productSpecificationDeleteObservableList = register.getProductSpecificationDeleteObservableList();
-        productSpecificationModifyObservableList = register.getProductSpecificationModifyObservableList();
+    // Quitting and saving product Catalog to item.txt file
+    private static void saveAndQuit() {
+        // Save catalog
+        register.saveCatalog();
 
+        // Quit system
+        System.exit(0);
+    }
+
+    // MIGHT BE ABLE TO REDUCE TO JUST ONE LIST
+    private static void updateComboBoxes() {
         // Update ComboBoxes
-        productSpecificationSaleComboBox = new ComboBox<>(productSpecificationSaleObservableList);
-        productSpecificationDeleteComboBox = new ComboBox<>(productSpecificationDeleteObservableList);
-        productSpecificationModifyComboBox = new ComboBox<>(productSpecificationModifyObservableList);
+        productSpecificationSaleComboBox.setItems(register.getProductSpecificationSaleObservableList());
+        productSpecificationDeleteComboBox.setItems(register.getProductSpecificationDeleteObservableList());
+        productSpecificationModifyComboBox.setItems(register.getProductSpecificationModifyObservableList());
     }
 
     /**

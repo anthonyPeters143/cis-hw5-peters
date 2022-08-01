@@ -57,17 +57,12 @@ public class ProductCatalog {
             ioException.printStackTrace();
         }
 
-
-
         // Initialize Arraylist of HashMap values
         listOfSpecification = new ArrayList<>(productCatalogHashMap.values());
-
-
     }
 
     // Updates data to productCatalogHashMap from random access file
     public void updateDataFromFile() {
-        // RAF VERSION
         try {
             // Set RandomAccessFile to beginning
             randomAccessProductFile.seek(0);
@@ -103,11 +98,11 @@ public class ProductCatalog {
             // Create set of Specifications
             ArrayList<ProductSpecification> listOfSpecification = new ArrayList<>(productCatalogHashMap.values());
 
-            // NEED TO SET UP
+            // Sort catalog input
             Collections.sort(listOfSpecification);
 
             int index = 0, lengthCounter = 0;
-            String productString = "", prevString = "";
+            String productString = "";
 
             while (index < listOfSpecification.size()) {
                 productString = listOfSpecification.get(index).getProductCode() + "," +
@@ -115,8 +110,6 @@ public class ProductCatalog {
                         currencyFormat.format(listOfSpecification.get(index).getProductPrice()) + ",";
 
                 randomAccessProductFile.writeProductToRandomAccessProductFile(lengthCounter,productString);
-
-                prevString = productString;
 
                 lengthCounter += productString.length();
 
@@ -159,7 +152,11 @@ public class ProductCatalog {
      * @param priceInput BigDecimal, price input
      */
     public void addProductSpecification(String codeInput, String nameInput, BigDecimal priceInput) {
+        // Update hashmap
         productCatalogHashMap.put(codeInput,new ProductSpecification(codeInput,nameInput,priceInput));
+
+        // Update Arraylist of HashMap values
+        listOfSpecification = new ArrayList<>(productCatalogHashMap.values());
     }
 
     /**
@@ -168,7 +165,11 @@ public class ProductCatalog {
      * @param codeInput String, code input used as key to find product
      */
     public void deleteProductSpecification(String codeInput) {
+        // Update hashmap
         productCatalogHashMap.remove(codeInput);
+
+        // Update Arraylist of HashMap values
+        listOfSpecification = new ArrayList<>(productCatalogHashMap.values());
     }
 
     /**

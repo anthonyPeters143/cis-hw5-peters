@@ -148,6 +148,10 @@ public class Register {
         sale.resetSale();
     }
 
+    public void saveCatalog() {
+        productCatalog.updateFileFromData();
+    }
+
     public String checkOutReceiptString(Double changeAmountInput) {
         String topReceiptString = sale.createReceipt(currencyFormat);
 
