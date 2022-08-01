@@ -38,7 +38,8 @@ public class HW5_peters extends Application {
     /**
      * Observation  List
      */
-    private static ObservableList<ProductSpecification> productSpecificationObservableList;
+    private static ObservableList<ProductSpecification> productSpecificationObservableList,
+            productSpecificationSaleObservableList, productSpecificationDeleteObservableList, productSpecificationModifyObservableList;
 
     /**
      * Product ComboBox
@@ -243,9 +244,15 @@ public class HW5_peters extends Application {
         // Create update event for delete field nodes
         productSpecificationDeleteComboBox.setOnAction(e -> {
             if (!(productSpecificationDeleteComboBox == null)) {
+                // Set fields to product values
                 itemAltDeleteCodeField.setText(productSpecificationDeleteComboBox.getValue().getProductCode());
                 itemAltDeleteNameField.setText(productSpecificationDeleteComboBox.getValue().getProductName());
                 itemAltDeletePriceField.setText(currencyFormat.format(productSpecificationDeleteComboBox.getValue().getProductPrice()));
+            } else {
+                // Set fields to non-values
+                itemAltDeleteCodeField.setText("");
+                itemAltDeleteNameField.setText("");
+                itemAltDeletePriceField.setText("");
             }
         });
         productSpecificationDeleteComboBox.getEditor().setFont(bodyFont);
@@ -664,15 +671,14 @@ public class HW5_peters extends Application {
         // Create register object instance
         register = new Register(currencyFormat,FILE_NAME_KEY);
 
-        // Create Observer list
-        productSpecificationObservableList = FXCollections.observableList(register.getProductSpecificationSaleObservableList());
+        // Initialize ObserverList and ComboBoxes
+        productSpecificationSaleObservableList = FXCollections.observableList(register.getProductSpecificationObservableList());
+        productSpecificationDeleteObservableList = FXCollections.observableList(register.getProductSpecificationObservableList());
+        productSpecificationModifyObservableList = FXCollections.observableList(register.getProductSpecificationObservableList());
 
-        productSpecificationSaleComboBox = new ComboBox<>(register.getProductSpecificationSaleObservableList());
-        productSpecificationDeleteComboBox = new ComboBox<>(register.getProductSpecificationDeleteObservableList());
-        productSpecificationModifyComboBox = new ComboBox<>(register.getProductSpecificationModifyObservableList());
-
-        // Update comboBoxes
-        updateComboBoxes();
+        productSpecificationSaleComboBox = new ComboBox<>(productSpecificationSaleObservableList);
+        productSpecificationDeleteComboBox = new ComboBox<>(productSpecificationDeleteObservableList);
+        productSpecificationModifyComboBox = new ComboBox<>(productSpecificationModifyObservableList);
     }
 
     // Quitting and saving product Catalog to item.txt file
@@ -686,10 +692,14 @@ public class HW5_peters extends Application {
 
     // MIGHT BE ABLE TO REDUCE TO JUST ONE LIST
     private static void updateComboBoxes() {
-        // Update ComboBoxes
-        productSpecificationSaleComboBox.setItems(register.getProductSpecificationSaleObservableList());
-        productSpecificationDeleteComboBox.setItems(register.getProductSpecificationDeleteObservableList());
-        productSpecificationModifyComboBox.setItems(register.getProductSpecificationModifyObservableList());
+        // Update observationList and comboBoxes
+        productSpecificationSaleObservableList = FXCollections.observableList(register.getProductSpecificationObservableList());
+        productSpecificationDeleteObservableList = FXCollections.observableList(register.getProductSpecificationObservableList());
+        productSpecificationModifyObservableList = FXCollections.observableList(register.getProductSpecificationObservableList());
+
+        productSpecificationSaleComboBox.setItems(productSpecificationSaleObservableList);
+        productSpecificationDeleteComboBox.setItems(productSpecificationDeleteObservableList);
+        productSpecificationModifyComboBox.setItems(productSpecificationModifyObservableList);
     }
 
     /**

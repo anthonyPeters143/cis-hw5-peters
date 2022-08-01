@@ -24,7 +24,8 @@ public class Register {
 
     ObservableList<ProductSpecification> productSpecificationSaleObservableList,
             productSpecificationDeleteObservableList,
-            productSpecificationModifyObservableList;
+            productSpecificationModifyObservableList,
+            productSpecificationObservableList;
 
     /**
      * Preset strings used in Register
@@ -134,9 +135,11 @@ public class Register {
 
     // Update observable lists from product catalog
     public void updateList() {
-        productSpecificationSaleObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
-        productSpecificationDeleteObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
-        productSpecificationModifyObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
+        productSpecificationObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
+
+//        productSpecificationSaleObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
+//        productSpecificationDeleteObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
+//        productSpecificationModifyObservableList = FXCollections.observableList(productCatalog.getListOfSpecification());
     }
 
     // Return size of salesLineItem list
@@ -219,18 +222,21 @@ public class Register {
         return productCatalog.getProductsStrings(currencyFormat);
     }
 
-    public ObservableList<ProductSpecification> getProductSpecificationSaleObservableList() {
-        return productSpecificationSaleObservableList;
-    }
+//    public ObservableList<ProductSpecification> getProductSpecificationSaleObservableList() {
+//        return productSpecificationSaleObservableList;
+//    }
+//
+//    public ObservableList<ProductSpecification> getProductSpecificationDeleteObservableList() {
+//        return productSpecificationDeleteObservableList;
+//    }
+//
+//    public ObservableList<ProductSpecification> getProductSpecificationModifyObservableList() {
+//        return productSpecificationModifyObservableList;
+//    }
 
-    public ObservableList<ProductSpecification> getProductSpecificationDeleteObservableList() {
-        return productSpecificationDeleteObservableList;
+    public ObservableList<ProductSpecification> getProductSpecificationObservableList() {
+        return productSpecificationObservableList;
     }
-
-    public ObservableList<ProductSpecification> getProductSpecificationModifyObservableList() {
-        return productSpecificationModifyObservableList;
-    }
-
     public BigDecimal getSubtotal() {
         return sale.getSubtotal();
     }
