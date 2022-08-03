@@ -7,7 +7,8 @@ import java.util.Collections;
 /**
  * @author Anthony Peters
  *
- * Sale tracks Array list of SalesLineItems, allows for the creation of receipt, adding of products, and reseting of sale.
+ * Sale tracks an Array list of SalesLineItems and subtotals. Allows for the creation of receiptString,
+ * adding of products to sale, checking the size and total of sale and reseting the sale.
  */
 
 public class Sale {

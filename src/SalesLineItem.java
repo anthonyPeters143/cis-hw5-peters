@@ -9,11 +9,23 @@ import java.math.BigDecimal;
 public class SalesLineItem implements Comparable<SalesLineItem>{
 
     /**
-     * Global variables
+     * BigDecimal value of product total
      */
     private BigDecimal productTotal;
+
+    /**
+     * String product code and name values
+     */
     private String productCode, productName;
+
+    /**
+     * Int product quantity value
+     */
     private int productQuantity;
+
+    /**
+     * Boolean taxable value
+     */
     private boolean productTaxable;
 
     /**
@@ -83,7 +95,7 @@ public class SalesLineItem implements Comparable<SalesLineItem>{
     /**
      * Gets taxable values
      *
-     * @return boolean, taxable values (true = taxable) (false = nontaxable)
+     * @return boolean, true = taxable / false = nontaxable
      */
     public boolean isProductTaxable() {
         return productTaxable;

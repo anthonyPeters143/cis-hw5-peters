@@ -1,17 +1,11 @@
-// Conformance to the OO Design: xx %
-// Support of item change: full/partial/none
-// Support of random access file: yes/no
-// Javadoc conformed comments on the classes, methods, and attributes: full/partial/no
-// Handling wrong input and invalid input: full/partial/no
-// Program does not crash with exceptions: crashes/does not crash
-// Correct handling of payment and taxes: yes/partial/no
-// Overall layout of GUI and ease of use: almost perfect/good enough/not good but works
-
-// !!!!!!!!!!!!NEED TO FILL OUT BEFORE TURN IN
-
-// Driver class for HW5
-
-// VM OPTIONS --module-path "C:\Users\Anthony\SDKs\javafx-sdk-18.0.1\lib" --add-modules javafx.controls,javafx.fxml
+// Conformance to the OO Design: 80%
+// Support of item change: full
+// Support of random access file: yes
+// Javadoc conformed comments on the classes, methods, and attributes: full
+// Handling wrong input and invalid input: full
+// Program does not crash with exceptions: does not crash
+// Correct handling of payment and taxes: yes
+// Overall layout of GUI and ease of use: good enough
 
 import java.text.DecimalFormat;
 import javafx.application.Application;
@@ -93,11 +87,11 @@ public class HW5_peters extends Application {
     public void start(Stage primaryStage) {
 
         // String references
-        String  TYPE_HERE_DEFAULT   = "Type here...",
-                SELECT_COMBO_DEFAULT = "Select from above",
+        String  TYPE_HERE_DEFAULT       = "Type here...",
+                SELECT_COMBO_DEFAULT    = "Select from above",
 
-                MAIN_SCENE_TITLE    = "POST Register",
-                EOD_TOTAL_TITLE     = "Total sale for the day is: $",
+                MAIN_SCENE_TITLE        = "POST Register",
+                EOD_TOTAL_TITLE         = "Total sale for the day is: $",
 
                 ADD_BUTTON_TITLE        = "Add",
                 DONE_BUTTON_TITLE       = "Done",
@@ -106,14 +100,11 @@ public class HW5_peters extends Application {
                 DATA_ALT_BUTTON_TITLE   = "Data Alteration",
                 QUIT_BUTTON_TITLE       = "Quit",
 
-                PRODUCT_CODE_TITLE  = "Product Code :",
-                PRODUCT_NAME_TITLE  = "Product Name :",
-                PRODUCT_PRICE_TITLE = "Product Price :",
-
-                ITEM_NAME_TITLE     = "Item Name :",
-                ITEM_PRICE_TITLE    = "Item Price :",
-                ITEM_QUANTITY_TITLE = "Quantity :",
-                ITEM_TOTAL_TITLE    = "Item total :",
+                PRODUCT_CODE_TITLE      = "Product Code :",
+                PRODUCT_NAME_TITLE      = "Product Name :",
+                PRODUCT_PRICE_TITLE     = "Product Price :",
+                PRODUCT_QUANTITY_TITLE = "Quantity :",
+                PRODUCT_TOTAL_TITLE    = "Product total :",
 
                 SUBTOTAL_TITLE          = "Sale Subtotal :",
                 SUBTOTAL_TAX_TITLE      = "Sale Tax Subtotal (6%) :",
@@ -264,6 +255,7 @@ public class HW5_peters extends Application {
         Label productAltDeleteCodeTitle = new Label(PRODUCT_CODE_TITLE);
         TextField productAltDeleteCodeField = new TextField();
         productAltDeleteCodeField.setPromptText(SELECT_COMBO_DEFAULT);
+        productAltDeleteCodeField.setEditable(false);
         HBox productAltDeleteCodeHB = new HBox(productAltDeleteCodeTitle,productAltDeleteCodeField);
         productAltDeleteCodeTitle.setFont(bodyFont);
         productAltDeleteCodeField.setFont(bodyFont);
@@ -273,6 +265,7 @@ public class HW5_peters extends Application {
         Label productAltDeleteNameTitle = new Label(PRODUCT_NAME_TITLE);
         TextField productAltDeleteNameField = new TextField();
         productAltDeleteNameField.setPromptText(SELECT_COMBO_DEFAULT);
+        productAltDeleteNameField.setEditable(false);
         HBox productAltDeleteNameHB = new HBox(productAltDeleteNameTitle,productAltDeleteNameField);
         productAltDeleteNameTitle.setFont(bodyFont);
         productAltDeleteNameField.setFont(bodyFont);
@@ -282,6 +275,7 @@ public class HW5_peters extends Application {
         Label productAltDeletePriceTitle = new Label(PRODUCT_PRICE_TITLE);
         TextField productAltDeletePriceField = new TextField();
         productAltDeletePriceField.setPromptText(SELECT_COMBO_DEFAULT);
+        productAltDeletePriceField.setEditable(false);
         HBox productAltDeletePriceHB = new HBox(productAltDeletePriceTitle,productAltDeletePriceField);
         productAltDeletePriceTitle.setFont(bodyFont);
         productAltDeletePriceField.setFont(bodyFont);
@@ -340,6 +334,10 @@ public class HW5_peters extends Application {
         // ************************************************************************************************************
 
         // Modify Scene
+        // Create modify item scene title
+        Label modifyProductAltSceneTitle = new Label(MODIFY_PRODUCT_TITLE);
+        modifyProductAltSceneTitle.setFont(titleFont);
+
         // Create dataAlt modify title/field VBox node
         Label productAltModifyCodeTitle = new Label(PRODUCT_CODE_TITLE);
         TextField productAltModifyCodeField = new TextField();
@@ -373,10 +371,6 @@ public class HW5_peters extends Application {
         productAltModifyTitleFieldVB.setSpacing(sceneSpace);
         productAltModifyTitleFieldVB.setAlignment(Pos.CENTER);
 
-        // Modify scene
-        // Create modify item scene title
-        Label modifyProductAltSceneTitle = new Label(MODIFY_PRODUCT_TITLE);
-
         // Select code from itemModifyComboBox
         // Create update event for modify field nodes
         productSpecificationModifyComboBox.setOnAction(e -> {
@@ -390,10 +384,6 @@ public class HW5_peters extends Application {
                 productAltModifyCodeField.setText("");
                 productAltModifyNameField.setText("");
                 productAltModifyPriceField.setText("");
-            }
-
-            if (!(productSpecificationModifyComboBox == null)) {
-
             }
         });
         productSpecificationModifyComboBox.getEditor().setFont(bodyFont);
@@ -502,11 +492,13 @@ public class HW5_peters extends Application {
         TextArea receiptTextArea = new TextArea(RECEIPT_TEXT);
         receiptTextArea.setPrefSize(RECEIPT_WIDTH,RECEIPT_HEIGHT);
         receiptTextArea.setFont(receiptFont);
+        receiptTextArea.setEditable(false);
 
         // Create subtotal title/field HBox nodes
         Label subtotalTitle = new Label(SUBTOTAL_TITLE);
         TextField subtotalField = new TextField();
         subtotalField.setPromptText(TOTAL_FIELDS_DEFAULT);
+        subtotalField.setEditable(false);
         HBox subtotalHB = new HBox(subtotalTitle,subtotalField);
         subtotalTitle.setFont(bodyFont);
         subtotalField.setFont(bodyFont);
@@ -516,6 +508,7 @@ public class HW5_peters extends Application {
         Label subtotalTaxTitle = new Label(SUBTOTAL_TAX_TITLE);
         TextField subtotalTaxField = new TextField();
         subtotalTaxField.setPromptText(TOTAL_FIELDS_DEFAULT);
+        subtotalTaxField.setEditable(false);
         HBox subtotalTaxHB = new HBox(subtotalTaxTitle,subtotalTaxField);
         subtotalTaxTitle.setFont(bodyFont);
         subtotalTaxField.setFont(bodyFont);
@@ -534,6 +527,7 @@ public class HW5_peters extends Application {
         Label changeTitle = new Label(CHANGE_TITLE);
         TextField changeField = new TextField();
         changeField.setPromptText(TOTAL_FIELDS_DEFAULT);
+        changeField.setEditable(false);
         HBox changeHB = new HBox(changeTitle,changeField);
         changeTitle.setFont(bodyFont);
         changeField.setFont(bodyFont);
@@ -541,34 +535,37 @@ public class HW5_peters extends Application {
         changeHB.setAlignment(Pos.CENTER);
 
         // Create item title/field HBox nodes
-        Label productSaleCodeTitle = new Label(ITEM_NAME_TITLE);
+        Label productSaleCodeTitle = new Label(PRODUCT_NAME_TITLE);
         TextField productSaleCodeField = new TextField();
         productSaleCodeField.setPromptText(SELECT_COMBO_DEFAULT);
+        productSaleCodeField.setEditable(false);
         HBox productSaleCodeHB = new HBox(productSaleCodeTitle,productSaleCodeField);
         productSaleCodeTitle.setFont(bodyFont);
         productSaleCodeField.setFont(bodyFont);
         productSaleCodeHB.setSpacing(sceneSpace);
         productSaleCodeHB.setAlignment(Pos.CENTER);
 
-        Label productSaleNameTitle = new Label(ITEM_PRICE_TITLE);
+        Label productSaleNameTitle = new Label(PRODUCT_PRICE_TITLE);
         TextField productSaleNameField = new TextField();
         productSaleNameField.setPromptText(SELECT_COMBO_DEFAULT);
+        productSaleNameField.setEditable(false);
         HBox productSaleNameHB = new HBox(productSaleNameTitle,productSaleNameField);
         productSaleNameTitle.setFont(bodyFont);
         productSaleNameField.setFont(bodyFont);
         productSaleNameHB.setSpacing(sceneSpace);
         productSaleNameHB.setAlignment(Pos.CENTER);
 
-        Label productSalePriceTitle = new Label(ITEM_TOTAL_TITLE);
+        Label productSalePriceTitle = new Label(PRODUCT_TOTAL_TITLE);
         TextField productSalePriceField = new TextField();
         productSalePriceField.setPromptText(SELECT_COMBO_DEFAULT);
+        productSalePriceField.setEditable(false);
         HBox productSalePriceHB = new HBox(productSalePriceTitle,productSalePriceField);
         productSalePriceTitle.setFont(bodyFont);
         productSalePriceField.setFont(bodyFont);
         productSalePriceHB.setSpacing(sceneSpace);
         productSalePriceHB.setAlignment(Pos.CENTER);
 
-        Label productSaleQuantityTitle = new Label(ITEM_QUANTITY_TITLE);
+        Label productSaleQuantityTitle = new Label(PRODUCT_QUANTITY_TITLE);
         TextField productSaleQuantityField = new TextField();
         productSaleQuantityField.setPromptText(SELECT_COMBO_DEFAULT);
         HBox productSaleQuantityHB = new HBox(productSaleQuantityTitle,productSaleQuantityField);

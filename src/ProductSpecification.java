@@ -1,5 +1,4 @@
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
 /**
  * @author Anthony Peters
@@ -10,10 +9,18 @@ import java.text.DecimalFormat;
 public class ProductSpecification implements Comparable<ProductSpecification> {
 
     /**
-     * Global variables
+     * String of product code and name
      */
     private String productCode, productName;
+
+    /**
+     * BigDecimal value of productPrice
+     */
     private BigDecimal productPrice;
+
+    /**
+     * Boolean taxable value
+     */
     private boolean productTaxable;
 
     /**
@@ -105,14 +112,25 @@ public class ProductSpecification implements Comparable<ProductSpecification> {
         this.productPrice = productPrice;
     }
 
+    /**
+     * Overrides toString method to create string of productSpecification
+     *
+     * @return String value of productName,productCode
+     */
     @Override
     public String toString() {
         return productName + "," + productCode;
     }
 
+    /**
+     * Overrides compareTo method to compare product codes
+     *
+     * @param o the object to be compared.
+     * @return int, greater = greater than 0, equal = 0, lesser = less than 0
+     */
     @Override
     public int compareTo(ProductSpecification o) {
-        return (this.getProductName().compareTo(o.getProductName()));
+        return (this.getProductCode().compareTo(o.getProductCode()));
     }
 
 }
